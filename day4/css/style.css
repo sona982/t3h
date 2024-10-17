@@ -1,0 +1,44 @@
+.container{
+    max-width: 1000px;
+    display: flex;
+    flex-direction: column;
+}
+.header{
+    background-color: aqua;
+}
+.content{
+    margin: 10px;
+    background-color: rgb(173, 172, 172);
+    flex: 1 ;
+}
+.top{
+    justify-content: center;
+    height: 200px;
+    display: flex;
+    flex-direction: row;
+}
+.top1{
+    flex-basis: 60%;
+    background-color: aquamarine;
+}
+.top2{
+    flex-basis: 20%;
+    background-color: rgb(194, 124, 37);
+}
+.bottom{
+    justify-content: center;
+    height: 200px;
+    display: flex;
+    flex-direction: row;
+}
+.bottom1{
+    flex-basis: 40%;
+    background-color: rgb(138, 68, 68);
+}
+.bottom2{
+    flex-basis: 40%;
+    background-color: rgba(62, 170, 202, 0.393);
+}
+.footer{
+    background-color: bisque;
+}
