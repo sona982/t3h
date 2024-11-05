@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thêm phần tử vào mảng</title>
+</head>
+<body>
+    <h2>Nhập phần tử để thêm vào mảng</h2>
+    <input type="text" id="elementInput" placeholder="Nhập giá trị">
+    <button onclick="addToEnd()">Thêm vào cuối</button>
+    <button onclick="addToStart()">Thêm vào đầu</button>
+    <p>Mảng hiện tại: <span id="arrayDisplay">[]</span></p>
+
+    <script>
+        let myArray = [];
+        let arrayLength = 0;
+
+        function addToEnd() {
+            const inputElement = document.getElementById("elementInput");
+            const value = inputElement.value;
+
+            if (value) {
+                myArray[arrayLength] = value;
+                arrayLength++;
+                inputElement.value = "";
+                displayArray();
+            } else {
+                alert("Vui lòng nhập giá trị hợp lệ.");
+            }
+        }
+
+        function addToStart() {
+            const inputElement = document.getElementById("elementInput");
+            const value = inputElement.value;
+
+            if (value) {
+                for (let i = arrayLength; i > 0; i--) {
+                    myArray[i] = myArray[i - 1];
+                }
+                myArray[0] = value; 
+                arrayLength++;  
+                inputElement.value = "";
+                displayArray();
+            } else {
+                alert("Vui lòng nhập giá trị hợp lệ.");
+            }
+        }
+
+        function displayArray() {
+            let arrayStr = '[';
+            for (let i = 0; i < arrayLength; i++) {
+                arrayStr += `"${myArray[i]}"`;
+                if (i < arrayLength - 1) arrayStr += ', ';
+            }
+            arrayStr += ']';
+            document.getElementById("arrayDisplay").textContent = arrayStr;
+        }
+    </script>
+</body>
+</html>
