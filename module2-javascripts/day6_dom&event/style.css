@@ -1,0 +1,33 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 20px;
+}
+.form-container {
+    display: flex;
+    gap: 20px;
+}
+.form {
+    width: 300px;
+}
+.form-group {
+    margin-bottom: 10px;
+}
+label {
+    display: block;
+    margin-bottom: 5px;
+}
+input, select, button {
+    width: 100%;
+    padding: 8px;
+    font-size: 14px;
+}
+.output {
+    background: #f9f9f9;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+.error {
+    color: red;
+    font-size: 12px;
+}
