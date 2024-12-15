@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Todo App with Login</title>
+  <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+  <div id="auth-section">
+    <h1 id="auth-title">Login</h1>
+    <div id="auth-form">
+      <input type="email" id="email" placeholder="Email" required>
+      <input type="password" id="password" placeholder="Password" required>
+      <button id="auth-button">Login</button>
+    </div>
+    <p id="toggle-auth">Don't have an account? <span id="toggle-auth-link">Register here</span></p>
+  </div>
+
+  <div id="todo-section" style="display: none;">
+    <div class="app">
+      <h1>To-Do App</h1>
+      <div class="input-section">
+        <input id="new-task" type="text" placeholder="Add a new task">
+        <button id="add-task">Add</button>
+      </div>
+      <div class="filter-section">
+        <button id="filter-all">All</button>
+        <button id="filter-active">Active</button>
+        <button id="filter-complete">Complete</button>
+        
+      </div>
+      <ul id="task-list"></ul>
+      <button id="clear-all">Clear All</button>
+    </div>
+  </div>
+
+  <script src="./index.js"></script>
+</body>
+</html>

@@ -240,12 +240,12 @@ function addStudentToTable(student, index) {
 }
 
 // Hàm hiển thị danh sách sinh viên
-function renderStudents() {
-    const students = getFromLocalStorage();
+function renderStudents(students = getFromLocalStorage()) {
     const tbodyDom = document.getElementById("info-student");
     tbodyDom.innerHTML = ""; // Xóa bảng cũ
     students.forEach((student, index) => addStudentToTable(student, index));
 }
+
 
 // Hàm thêm sinh viên mới vào Local Storage
 function addNewStudent() {
@@ -292,8 +292,141 @@ function removeStudent(index) {
     renderStudents(); // Cập nhật lại giao diện sau khi xóa
 }
 
-// Gọi hàm khi tải trang
-document.addEventListener("DOMContentLoaded", function() {
+
+
+//---------------- ham edit ------------------------------------------------
+// Lưu chỉ mục của sinh viên đang chỉnh sửa
+let editingIndex = null;
+
+// Hàm chỉnh sửa sinh viên
+function editStudent(index) {
+    const students = getFromLocalStorage();
+    const student = students[index];
+
+    // Đưa thông tin sinh viên vào form
+    document.getElementById("name").value = student.name;
+    document.getElementById("math").value = student.mathScore;
+    document.getElementById("english").value = student.englishScore;
+    document.getElementById("literature").value = student.literatureScore;
+    document.querySelector(`input[name='gender'][value='${student.gender}']`).checked = true;
+
+    // Lưu chỉ mục
+    editingIndex = index;
+
+    // Đổi nút "Create Student" thành "Update Student"
+    const btnCreate = document.getElementById("btn");
+    btnCreate.textContent = "Update Student";
+    btnCreate.classList.replace("btn-primary", "btn-success");
+}
+
+// Thêm logic cập nhật sinh viên
+function addNewStudent() {
+    const btnCreate = document.getElementById("btn");
+
+    btnCreate.addEventListener("click", function (event) {
+        event.preventDefault();
+
+        // Lấy thông tin từ form
+        const name = document.getElementById("name").value.trim();
+        const gender = document.querySelector("input[name='gender']:checked")?.value || "Not selected";
+        const mathScore = document.getElementById("math").value.trim();
+        const englishScore = document.getElementById("english").value.trim();
+        const literatureScore = document.getElementById("literature").value.trim();
+
+        // Kiểm tra dữ liệu hợp lệ
+        if (!name || !gender || !mathScore || !englishScore || !literatureScore) {
+            alert("Please fill in all fields!");
+            return;
+        }
+
+        const students = getFromLocalStorage();
+
+        if (editingIndex === null) {
+            // Thêm sinh viên mới
+            const student = { name, gender, mathScore, englishScore, literatureScore };
+            students.push(student);
+        } else {
+            // Cập nhật sinh viên
+            students[editingIndex] = { name, gender, mathScore, englishScore, literatureScore };
+            editingIndex = null; // Reset trạng thái
+            btnCreate.textContent = "Create Student";
+            btnCreate.classList.replace("btn-success", "btn-primary");
+        }
+
+        // Lưu vào Local Storage và cập nhật giao diện
+        saveToLocalStorage(students);
+        renderStudents();
+
+        // Reset form
+        document.getElementById("student-form").reset();
+    });
+}
+// ---------------------------------------
+
+// ---------------------------- ham tim kiem --------------------------------
+function searchStudents() {
+    const searchInput = document.querySelector(".input-group input");
+    searchInput.addEventListener("input", function () {
+        const query = searchInput.value.toLowerCase().trim();
+        const students = getFromLocalStorage();
+
+        // Lọc danh sách sinh viên
+        const filteredStudents = students.filter((student) =>
+            student.name.toLowerCase().includes(query)
+        );
+
+        // Cập nhật danh sách hiển thị
+        renderStudents(filteredStudents);
+    });
+}
+
+// ----------------------------------------------------------------------------------
+
+// --------------------------- function phan trang -------------------------------------
+let currentPage = 1;
+const rowsPerPage = 4; // Số dòng trên mỗi trang
+
+function paginateStudents(page = 1) {
+    const students = getFromLocalStorage();
+    const start = (page - 1) * rowsPerPage;
+    const end = start + rowsPerPage;
+
+    // Lấy danh sách sinh viên cho trang hiện tại
+    const paginatedStudents = students.slice(start, end);
+
+    renderStudents(paginatedStudents);
+    renderPaginationControls(students.length);
+}
+
+function renderPaginationControls(totalStudents) {
+    const paginationContainer = document.getElementById("pagination-controls");
+    if (!paginationContainer) return;
+
+    paginationContainer.innerHTML = ""; // Xóa các nút phân trang cũ
+
+    const totalPages = Math.ceil(totalStudents / rowsPerPage);
+
+    for (let i = 1; i <= totalPages; i++) {
+        const button = document.createElement("button");
+        button.textContent = i;
+        button.classList.add("btn", "btn-outline-primary", "m-1");
+        if (i === currentPage) {
+            button.classList.add("active");
+        }
+        button.addEventListener("click", function () {
+            currentPage = i;
+            paginateStudents(i);
+        });
+        paginationContainer.appendChild(button);
+    }
+}
+
+// Gọi hàm phân trang khi tải trang:
+document.addEventListener("DOMContentLoaded", function () {
+    paginateStudents(); // Hiển thị trang đầu tiên
+    addNewStudent();
+    searchStudents();
     renderStudents();
-    addNewStudent(); // Gọi hàm thêm sinh viên mới
 });
+
+// ----------------------------------------------------------------------------
