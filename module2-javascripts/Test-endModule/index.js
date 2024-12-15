@@ -19,29 +19,29 @@ toggleAuthLink.addEventListener("click", () => {
   authTitle.textContent = isRegisterMode ? "Register" : "Login";
   authButton.textContent = isRegisterMode ? "Register" : "Login";
   toggleAuthLink.textContent = isRegisterMode
-    ? "Already have an account? Login here"
-    : "Don't have an account? Register here";
+    ? "Đã có tài khoản? Đăng nhập tại đây"
+    : "Không có tài khoản? Đăng ký tại đây";
 });
 
-// Handle authentication (login/register)
+// (login/register)
 authButton.addEventListener("click", () => {
   const email = emailInput.value.trim();
   const password = passwordInput.value.trim();
 
   if (!email || !password) {
-    alert("Please enter both email and password.");
+    alert("Vui lòng nhập cả email và mật khẩu.");
     return;
   }
 
   if (isRegisterMode) {
     // Registration logic
     if (users.some(user => user.email === email)) {
-      alert("This email is already registered.");
+      alert("Email này đã được đăng ký.");
       return;
     }
     users.push({ email, password });
     localStorage.setItem("users", JSON.stringify(users));
-    alert("Registration successful. Please log in.");
+    alert("Đăng ký thành công. Vui lòng đăng nhập.");
     isRegisterMode = false;
     toggleAuthLink.click();
   } else {
@@ -52,7 +52,7 @@ authButton.addEventListener("click", () => {
       authSection.style.display = "none";
       todoSection.style.display = "block";
     } else {
-      alert("Invalid email or password.");
+      alert("Email hoặc mật khẩu không hợp lệ.");
     }
   }
 });
@@ -100,7 +100,7 @@ function renderTasks() {
 
 function addTask() {
   const text = taskInput.value.trim();
-  if (!text) return alert("Task cannot be empty!");
+  if (!text) return alert("Không được để trống!");
   tasks.push({ id: Date.now(), text, completed: false });
   taskInput.value = "";
   saveTasks();
@@ -122,7 +122,7 @@ function deleteTask(id) {
 
 addTaskButton.addEventListener("click", addTask);
 clearAllButton.addEventListener("click", () => {
-  if (confirm("Are you sure you want to delete all tasks?")) {
+  if (confirm("Bạn có chắc chắn muốn xóa tất cả tác vụ không?")) {
     tasks = [];
     saveTasks();
     renderTasks();
